@@ -12,7 +12,9 @@ import RsvpModal from './RsvpModal';
 import GiftList from './GiftList';
 import AdminGuestList from './AdminGuestList';
 
-const MAPS_LINK = "https://maps.app.goo.gl/PBVPutEtUwAcbTS59"; 
+const ENDERECO_FESTA = "Av. Santa Marta, 151 - Da Paz, Parauapebas - PA, 68515-000";
+
+const MAPS_LINK = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ENDERECO_FESTA)}`;
 
 export default function Invitation() {
   const [showModal, setShowModal] = useState(false);
@@ -47,7 +49,7 @@ export default function Invitation() {
               style={{ 
                 width: '100%', 
                 height: '100%', 
-                objectFit: 'contain', // Garante que a imagem inteira apareça sem cortar
+                objectFit: 'contain', 
                 borderRadius: '15px', 
                 filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.2))'
               }}
@@ -63,7 +65,7 @@ export default function Invitation() {
                style={{
                  position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                  width: '90%', 
-                 opacity: 0.3, // <--- OPACIDADE AUMENTADA AQUI (0.3)
+                 opacity: 0.3,
                  zIndex: 0, pointerEvents: 'none'
                }}
              />
@@ -91,10 +93,10 @@ export default function Invitation() {
         return (
           <ContentSection title="Lista de Presentes" icon={<FaGift size={60} color="#D4AF37" />}>
             <p style={{ fontSize: '1rem', color: '#5A3E36', marginBottom: '15px', fontStyle: 'italic' }}>
-              Toque no item para marcar que você vai presentear! ❤️
+              Toque no item para marcar o que você vai presentear! ❤️
             </p>
-            {/* Wrapper com altura fixa para o scroll funcionar dentro dele */}
-            <div style={{ width: '100%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            {/* Wrapper ajustado para usar Flex e evitar cortes */}
+            <div style={{ width: '100%', flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <GiftList />
             </div>
           </ContentSection>
@@ -112,74 +114,63 @@ export default function Invitation() {
   return (
     <>
       <motion.div 
-        className="card-scroll-container"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ y: 50, opacity: 0 }} 
+        animate={{ y: 0, opacity: 1 }} 
         transition={{ duration: 0.8 }}
         style={{
-          width: '100%', height: '100vh', 
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          background: 'transparent', padding: '10px'
+          width: '100%', 
+          height: '100vh', // Ocupa a tela toda
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          padding: '10px' // Espaço de respiro nas bordas
         }}
       >
-        {/* --- O CARD PRINCIPAL AGORA É ESTÁVEL (SEM PULAR) --- */}
-        <div style={{
-          backgroundColor: '#FFFAF0', 
-          borderRadius: '25px',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.6)', 
-          
-          // DIMENSÕES FIXAS E GRANDES
-          width: '100%',
-          maxWidth: '600px',  // Mais largo
-          
-          // O SEGREDO DA ESTABILIDADE:
-          height: '85vh',     // Ocupa 85% da altura da tela SEMPRE
-          maxHeight: '850px', // Limite para monitores gigantes
-          minHeight: '600px', // Limite para celulares pequenos
-
-          display: 'flex', flexDirection: 'column', position: 'relative',
-          overflow: 'hidden' // Corta o que sobrar (segurança)
-        }}>
+        
+        {/* AQUI ESTÁ A MUDANÇA PRINCIPAL: Usando a classe CSS do index.css */}
+        <div className="invitation-card">
           
           {activeContent !== 'convite' && (
             <motion.button
-              initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
-              onClick={() => setActiveContent('convite')}
+              initial={{ scale: 0 }} animate={{ scale: 1 }} onClick={() => setActiveContent('convite')}
               style={{ 
-                position: 'absolute', top: '20px', left: '20px', zIndex: 20,
+                // MUDANÇA: Aumentei para 15px para desgrudar da quina
+                position: 'absolute', top: '15px', left: '15px', zIndex: 20,
                 background: 'rgba(255,255,255,0.95)', border: 'none', borderRadius: '50%', 
-                width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: '#5A3E36', fontSize: '1.4rem', boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
+                width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', color: '#5A3E36', fontSize: '1.3rem', boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
               }}
             >
               <FaArrowLeft />
             </motion.button>
           )}
 
-          {/* ÁREA DE CONTEÚDO (Ocupa todo o espaço restante) */}
+          {/* Área de Conteúdo (Com Scroll Interno automático) */}
           <div style={{ 
-            flex: 1, 
-            padding: '20px', 
+            flex: 1, // Ocupa todo o espaço disponível
+            padding: '15px', 
             display: 'flex', 
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center', // Centraliza conteúdo pequeno
-            position: 'relative',
-            overflowY: 'auto' // Scroll aparece AQUI dentro se o conteúdo for maior que o card
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            position: 'relative', 
+            overflowY: 'auto', // Scroll aparece AQUI se o conteúdo for grande
+            width: '100%'
           }}>
-            <AnimatePresence mode="wait">
-              {renderContent()}
-            </AnimatePresence>
+            <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
           </div>
 
-          {/* DIVISOR */}
+          {/* Divisor Sutil */}
           <div style={{ width: '100%', height: '2px', background: 'rgba(90, 62, 54, 0.1)', zIndex: 10 }}></div>
 
-          {/* RODAPÉ FIXO */}
+          {/* Rodapé de Navegação */}
           <div style={{ 
-            padding: '20px', 
-            background: '#FFFAF0',
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', justifyItems: 'center', 
+            padding: '10px 5px', // Padding reduzido
+            background: '#FFFAF0', 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(4, 1fr)', 
+            gap: '5px', 
+            justifyItems: 'center', 
             zIndex: 10 
           }}>
             <CircularButton icon={<FaHeart />} label="Confirmar" onClick={() => handleButtonClick('rsvp')} isActive={showModal} />
@@ -190,20 +181,23 @@ export default function Invitation() {
         </div>
       </motion.div>
 
+      {/* --- MODAIS E ADMIN --- */}
       {showModal && <RsvpModal onClose={() => setShowModal(false)} />}
-
+      
+      {/* Botão Admin Discreto */}
       <div style={{ position: 'fixed', bottom: '10px', left: '10px', opacity: 0.3, zIndex: 200 }}>
-        <button onClick={() => setShowAdmin(true)} style={{ background: 'none', border: 'none', cursor: 'pointer' }} title="Área Restrita">
+        <button onClick={() => setShowAdmin(true)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
             <FaLock size={15} color="#fff" />
         </button>
       </div>
-
+      
       {showAdmin && <AdminGuestList onClose={() => setShowAdmin(false)} />}
     </>
   );
 }
 
-// Componentes Auxiliares
+// --- SUB-COMPONENTES AUXILIARES ---
+
 const ContentSection = ({ title, icon, children }) => (
   <motion.div
     key={title} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
@@ -211,34 +205,52 @@ const ContentSection = ({ title, icon, children }) => (
     style={{ 
       textAlign: 'center', color: '#5A3E36', 
       display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%',
-      height: '100%', justifyContent: 'center' // Garante centralização
+      height: '100%', 
+      justifyContent: 'flex-start', /* MUDANÇA 1: Alinha ao topo para controlarmos a descida */
+      paddingTop: '20px' /* Espaço extra geral */
     }}
   >
-    <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '1.8rem', marginBottom: '20px', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{title}</h2>
-    <div style={{ marginBottom: '20px', position: 'relative', zIndex: 2 }}>{icon}</div>
-    {children}
+    <h2 style={{ 
+        fontFamily: "'Montserrat', sans-serif", 
+        fontSize: '1.8rem', 
+        marginBottom: '15px', 
+        color: '#D4AF37', 
+        textTransform: 'uppercase', 
+        letterSpacing: '1.5px',
+        marginTop: '40px' /* MUDANÇA 2: Essa margem empurra o título para baixo da seta */
+    }}>
+        {title}
+    </h2>
+    
+    <div style={{ marginBottom: '15px', position: 'relative', zIndex: 2 }}>
+        {icon}
+    </div>
+    
+    <div style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {children}
+    </div>
   </motion.div>
 );
 
 const CircularButton = ({ icon, label, onClick, isActive }) => {
   const activeColor = '#D4AF37'; const inactiveColor = '#4A6fa5'; 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '80px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '75px' }}>
       <motion.button
         whileTap={{ scale: 0.9 }} onClick={onClick}
         style={{
-          width: '65px', height: '65px', borderRadius: '50%', // Botões maiores
+          width: '55px', height: '55px', borderRadius: '50%', // Levemente menor para garantir que cabe lado a lado
           border: `2px solid ${isActive ? activeColor : inactiveColor}`,
           backgroundColor: isActive ? activeColor : 'white',
           color: isActive ? 'white' : inactiveColor,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem',
           cursor: 'pointer', boxShadow: isActive ? `0 0 15px ${activeColor}90` : '0 5px 12px rgba(0,0,0,0.1)',
-          transition: 'all 0.3s ease', marginBottom: '10px', outline: 'none'
+          transition: 'all 0.3s ease', marginBottom: '6px', outline: 'none'
         }}
       >
         {icon}
       </motion.button>
-      <span style={{ fontSize: '0.65rem', color: '#5A3E36', textAlign: 'center', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</span>
+      <span style={{ fontSize: '0.6rem', color: '#5A3E36', textAlign: 'center', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</span>
     </div>
   );
 };

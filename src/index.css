@@ -1,22 +1,107 @@
 :root {
-  font-family: 'Montserrat', sans-serif; /* Fonte moderna para textos gerais */
+  font-family: 'Montserrat', sans-serif;
   line-height: 1.5;
   
-  /* Paleta extraída do convite da Sara */
-  --bg-blue: #A6D0F3;       /* Azul clarinho do fundo */
-  --card-white: #FFFAF0;    /* Branco meio creme do papel */
-  --text-primary: #5A3E36;  /* Aquele tom terroso/vinho do nome SARA */
-  --text-secondary: #4A6fa5; /* Azul mais escuro das flores */
-  --gold-accent: #D4AF37;   /* Um dourado sutil para detalhes, se precisar */
+  --bg-blue: #A6D0F3;
+  --card-white: #FFFAF0;
+  --text-primary: #5A3E36;
+  --text-secondary: #4A6fa5;
+  --gold-accent: #D4AF37;
+}
+
+* {
+  box-sizing: border-box; /* IMPORTANTE: Garante que padding não estoure a largura */
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-image: url('/src/assets/fundo-castelo.jpg');
-  background-size: cover;     
-  background-position: center; 
-  background-attachment: fixed;
+  background-color: var(--bg-blue);
+  background-image: none;
   color: var(--text-primary);
   overflow: hidden;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  transition: background-image 0.3s ease; 
+}
+
+/* --- CLASSES GENÉRICAS PARA MODAIS (GiftModal, RsvpModal, Admin) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+}
+
+.modal-box {
+  background-color: var(--card-white);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px; /* Largura máxima bonita */
+  max-height: 90vh; /* Nunca passa de 90% da altura da tela */
+  overflow-y: auto; /* Cria scroll DENTRO do modal se precisar */
+  position: relative;
+  border: 2px solid var(--gold-accent);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-image: url('/src/assets/fundo-castelo.jpg');
+    
+    background-color: var(--bg-blue);
+  }
+}
+
+/* Ajuste para telas muito baixas ou quando teclado abre (Landscape celular) */
+@media (max-height: 600px) {
+  .modal-overlay {
+    align-items: flex-start; /* Joga pro topo para dar pra ver */
+    overflow-y: auto; /* Permite rolar a tela preta de fundo */
+  }
+  .modal-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: none; /* Deixa o modal crescer */
+  }
+}
+
+/* --- CLASSE PARA O CARD PRINCIPAL DO CONVITE --- */
+.invitation-card {
+  background-color: var(--card-white);
+  border-radius: 25px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  width: 100%;
+  max-width: 600px;
+  height: 85vh; /* Padrão */
+  max-height: 850px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+/* Responsividade Extrema para Celulares Pequenos (iPhone SE, etc) */
+@media (max-width: 380px) {
+  .invitation-card {
+    height: 90vh; /* Aproveita mais espaço vertical */
+    border-radius: 15px; /* Bordas menos arredondadas economizam espaço */
+  }
+  .modal-box {
+    padding: 15px; /* Menos padding interno */
+  }
+  h2, h3 {
+    font-size: 1.5rem !important; /* Diminui títulos */
+  }
 }
