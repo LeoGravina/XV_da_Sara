@@ -84,7 +84,7 @@ body {
 @media (max-width: 768px) {
   body {
     /* Lembre-se: Imagem na pasta public ou assets conforme sua escolha */
-    background-image: url('/fundo-castelo.jpg'); 
+    background-image: url('./assets/fundo-castelo.jpg'); 
     background-color: var(--bg-blue);
   }
 }
