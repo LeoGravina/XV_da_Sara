@@ -98,10 +98,6 @@ export default function AdminGuestList({ onClose }) {
                 </ul>
               )}
             </div>
-            
-            <button onClick={() => window.print()} style={{
-                marginTop: 10, padding: 10, background: '#4A6fa5', color: 'white', border: 'none', borderRadius: 5, cursor: 'pointer'
-            }}>Imprimir Lista</button>
           </>
         )}
       </div>

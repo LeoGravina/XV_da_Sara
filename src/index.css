@@ -15,19 +15,18 @@
 
 body {
   margin: 0;
-  /* MUDANÇA 1: Usar dvh para ignorar a barra de endereço do navegador */
   min-height: 100dvh; 
-  
-  /* Configuração do Background */
   background-color: var(--bg-blue);
-  background-image: none;
+  background-image: none; 
   background-position: center center;
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  
   color: var(--text-primary);
-  overflow: hidden; /* Evita rolagem na página inteira, só dentro do card */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* --- CLASSES DOS MODAIS --- */
@@ -48,7 +47,7 @@ body {
   border-radius: 20px;
   width: 100%;
   max-width: 400px;
-  max-height: 85dvh; /* Garante que o modal não estoure a altura */
+  max-height: 85dvh; 
   overflow-y: auto;
   position: relative;
   border: 2px solid var(--gold-accent);
@@ -63,27 +62,20 @@ body {
   background-color: var(--card-white);
   border-radius: 25px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-  
   width: 100%;
   max-width: 600px;
-  
-  /* MUDANÇA 2: Altura flexível segura */
   height: 100%; 
-  max-height: 90dvh; /* Nunca ocupa mais que 90% da altura REAL visível */
-  
+  max-height: 90dvh; 
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  
-  /* Garante margem de segurança no fundo para iPhones novos */
   margin-bottom: env(safe-area-inset-bottom);
 }
 
-/* --- RESPONSIVIDADE DO BACKGROUND --- */
 @media (max-width: 768px) {
   body {
-    /* Lembre-se: Imagem na pasta public ou assets conforme sua escolha */
+    padding: 0;
     background-image: url('./assets/fundo-castelo.jpg'); 
     background-color: var(--bg-blue);
   }
@@ -93,15 +85,12 @@ body {
 @media (max-height: 700px) {
   .invitation-card {
     border-radius: 15px;
-    max-height: 95dvh; /* Aproveita mais espaço se a tela for pequena */
+    max-height: 95dvh;
   }
   
-  /* Diminui padding interno */
   .invitation-card > div { 
     padding: 10px !important; 
   }
-
-  /* Ajusta o tamanho dos botões do rodapé para não comerem espaço */
   .footer-btn {
     width: 45px !important;
     height: 45px !important;

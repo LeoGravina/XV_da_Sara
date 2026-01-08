@@ -22,13 +22,12 @@ export default function RsvpModal({ onClose }) {
   };
 
   return (
-    // USANDO AS CLASSES DO CSS
     <div className="modal-overlay">
       <motion.div 
         initial={{ scale: 0.9, opacity: 0 }} 
         animate={{ scale: 1, opacity: 1 }} 
         exit={{ scale: 0.9, opacity: 0 }}
-        className="modal-box" // CLASSE NOVA AQUI
+        className="modal-box" 
       >
         <button onClick={onClose} style={{
           position: 'absolute', top: '15px', right: '15px', background: 'transparent', 
