@@ -59,7 +59,8 @@ export default function Invitation() {
 
       case 'traje':
         return (
-          <ContentSection title="Traje" icon={<FaFemale size={60} color="#D4AF37" />}>
+          <ContentSection title="Traje" icon={<FaFemale size={50} color="#D4AF37" />}>
+             {/* Imagem de Fundo Fixa */}
              <img 
                src={cinderelaSutilImg} alt=""
                style={{
@@ -69,33 +70,77 @@ export default function Invitation() {
                  zIndex: 0, pointerEvents: 'none'
                }}
              />
-             <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <p style={{ fontSize: '2.2rem', color: '#5A3E36', margin: '10px 0', fontFamily: "'Great Vibes', cursive" }}>Esporte Fino</p>
-                <p style={{ color: '#666', marginBottom: '30px', maxWidth: '350px', fontSize: '1.1rem' }}>
+             
+             {/* MUDANÇA: Container com Scroll (overflow-y: auto) */}
+             <div style={{ 
+                position: 'relative', 
+                zIndex: 1, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',     // Ocupa toda a altura disponível
+                overflowY: 'auto',  // Ativa o SCROLL se o texto for grande
+                padding: '0 10px 20px 10px' // Espaço extra embaixo para não cortar no scroll
+             }}>
+                
+                <p style={{ 
+                    fontSize: '2rem', // Diminuí levemente (era 2.2)
+                    color: '#5A3E36', 
+                    margin: '5px 0 10px 0', 
+                    fontFamily: "'Great Vibes', cursive",
+                    textAlign: 'center'
+                }}>
+                    Passeio Completo / Social
+                </p>
+                
+                <p style={{ 
+                    color: '#666', 
+                    marginBottom: '20px', 
+                    maxWidth: '350px', 
+                    fontSize: '1rem', 
+                    textAlign: 'center',
+                    lineHeight: '1.4'
+                }}>
                   Prepare seu melhor look! Venha elegante, mas confortável para aproveitar a noite.
                 </p>
+                
+                {/* Box de Aviso */}
                 <div style={{
-                    backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px dashed #D4AF37',
-                    padding: '25px', borderRadius: '20px', maxWidth: '380px',
+                    backgroundColor: 'rgba(212, 175, 55, 0.1)', 
+                    border: '2px dashed #D4AF37',
+                    padding: '15px', // Padding interno reduzido
+                    borderRadius: '15px', 
+                    maxWidth: '100%', // Garante que não estoure a largura
+                    width: '90%',
+                    marginBottom: '10px'
                 }}>
-                    <strong style={{ color: '#D4AF37', display: 'block', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1.2px', fontSize: '0.9rem' }}>
-                       ⚠️ Dica Importante:
+                    <strong style={{ color: '#D4AF37', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.8rem', textAlign: 'center' }}>
+                       ⚠️ Pedido da Debutante:
                     </strong>
-                    <p style={{ color: '#5A3E36', fontSize: '1.1rem', fontStyle: 'italic', margin: 0, lineHeight: '1.5' }}>
-                      "A aniversariante escolheu a cor <strong style={{color: '#4A6fa5', fontWeight: '900', fontSize: '1.2rem'}}>AZUL</strong>, sugerimos que escolham qualquer outra cor!"
+                    <p style={{ color: '#5A3E36', fontSize: '1rem', fontStyle: 'italic', margin: 0, lineHeight: '1.4', textAlign: 'center' }}>
+                      "A cor <strong style={{color: '#4A6fa5', fontWeight: '900', fontSize: '1.1rem'}}>AZUL</strong> foi escolhida especialmente para a aniversariante. Por favor, pedimos que não a use!"
                     </p>
                 </div>
              </div>
           </ContentSection>
-        );
+      );
 
       case 'presentes':
         return (
           <ContentSection title="Lista de Presentes" icon={<FaGift size={60} color="#D4AF37" />}>
-            <p style={{ fontSize: '1rem', color: '#5A3E36', marginBottom: '15px', fontStyle: 'italic' }}>
+            {/* AQUI ESTÁ A ALTERAÇÃO: adicionei textAlign: 'center' */}
+            <p style={{ 
+                fontSize: '1rem', 
+                color: '#5A3E36', 
+                marginBottom: '15px', 
+                fontStyle: 'italic',
+                textAlign: 'center', // <--- Centraliza o texto
+                width: '100%' // Garante que use a largura toda pra centralizar bem
+            }}>
               Toque no item para marcar o que você vai presentear! ❤️
             </p>
-            {/* Wrapper ajustado para usar Flex e evitar cortes */}
+            
             <div style={{ width: '100%', flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <GiftList />
             </div>
@@ -148,14 +193,12 @@ export default function Invitation() {
           {/* Área de Conteúdo (Com Scroll Interno automático) */}
           <div style={{ 
             flex: 1, // Ocupa todo o espaço disponível
-            padding: '15px', 
+            width: '100%',
             display: 'flex', 
             flexDirection: 'column', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
             position: 'relative', 
-            overflowY: 'auto', // Scroll aparece AQUI se o conteúdo for grande
-            width: '100%'
+            overflow: 'hidden', // IMPORTANTE: Impede que o card inteiro estoure
+            padding: '0 15px' // Padding lateral apenas
           }}>
             <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
           </div>
@@ -203,30 +246,42 @@ const ContentSection = ({ title, icon, children }) => (
     key={title} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.4 }}
     style={{ 
-      textAlign: 'center', color: '#5A3E36', 
-      display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%',
-      height: '100%', 
-      justifyContent: 'flex-start', /* MUDANÇA 1: Alinha ao topo para controlarmos a descida */
-      paddingTop: '20px' /* Espaço extra geral */
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      width: '100%',
+      height: '100%', // Ocupa a altura total do pai
+      paddingTop: '10px' 
     }}
   >
+    {/* Título Fixo no Topo */}
     <h2 style={{ 
         fontFamily: "'Montserrat', sans-serif", 
-        fontSize: '1.8rem', 
-        marginBottom: '15px', 
+        fontSize: '1.6rem', // Diminuí um pouco para telas pequenas
+        marginBottom: '10px', 
         color: '#D4AF37', 
         textTransform: 'uppercase', 
         letterSpacing: '1.5px',
-        marginTop: '40px' /* MUDANÇA 2: Essa margem empurra o título para baixo da seta */
+        marginTop: '35px', // Espaço para a seta não cobrir
+        flexShrink: 0 // Impede que o título seja esmagado
     }}>
         {title}
     </h2>
     
-    <div style={{ marginBottom: '15px', position: 'relative', zIndex: 2 }}>
+    {/* Ícone Fixo */}
+    <div style={{ marginBottom: '10px', position: 'relative', zIndex: 2, flexShrink: 0 }}>
         {icon}
     </div>
     
-    <div style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    {/* ÁREA DE SCROLL (Onde fica a lista ou o texto) */}
+    <div style={{ 
+        flex: 1, // Ocupa o resto do espaço
+        width: '100%', 
+        overflow: 'hidden', // Segura o conteúdo dentro
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 0 // <--- O SEGREDO DO FLEXBOX! (Sem isso o scroll some)
+    }}>
         {children}
     </div>
   </motion.div>
@@ -235,11 +290,12 @@ const ContentSection = ({ title, icon, children }) => (
 const CircularButton = ({ icon, label, onClick, isActive }) => {
   const activeColor = '#D4AF37'; const inactiveColor = '#4A6fa5'; 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '75px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <motion.button
         whileTap={{ scale: 0.9 }} onClick={onClick}
+        className="footer-btn" // <--- ADICIONE ESSA CLASSE
         style={{
-          width: '55px', height: '55px', borderRadius: '50%', // Levemente menor para garantir que cabe lado a lado
+          width: '55px', height: '55px', borderRadius: '50%',
           border: `2px solid ${isActive ? activeColor : inactiveColor}`,
           backgroundColor: isActive ? activeColor : 'white',
           color: isActive ? 'white' : inactiveColor,
@@ -250,7 +306,8 @@ const CircularButton = ({ icon, label, onClick, isActive }) => {
       >
         {icon}
       </motion.button>
-      <span style={{ fontSize: '0.6rem', color: '#5A3E36', textAlign: 'center', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</span>
+      {/* ADICIONE A CLASSE footer-label ABAIXO */}
+      <span className="footer-label" style={{ fontSize: '0.6rem', color: '#5A3E36', textAlign: 'center', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</span>
     </div>
   );
 };
