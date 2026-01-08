@@ -57,9 +57,9 @@ export default function Invitation() {
           </motion.div>
         );
 
-      case 'vestimenta':
+      case 'traje':
         return (
-          <ContentSection title="Vestimenta" icon={<FaFemale size={60} color="#D4AF37" />}>
+          <ContentSection title="Traje" icon={<FaFemale size={60} color="#D4AF37" />}>
              <img 
                src={cinderelaSutilImg} alt=""
                style={{
@@ -79,10 +79,10 @@ export default function Invitation() {
                     padding: '25px', borderRadius: '20px', maxWidth: '380px',
                 }}>
                     <strong style={{ color: '#D4AF37', display: 'block', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1.2px', fontSize: '0.9rem' }}>
-                       ⚠️ Pedido da Debutante:
+                       ⚠️ Dica Importante:
                     </strong>
                     <p style={{ color: '#5A3E36', fontSize: '1.1rem', fontStyle: 'italic', margin: 0, lineHeight: '1.5' }}>
-                      "A cor <strong style={{color: '#4A6fa5', fontWeight: '900', fontSize: '1.2rem'}}>AZUL</strong> foi escolhida especialmente para a aniversariante. Por favor, pedimos que não a use!"
+                      "A aniversariante escolheu a cor <strong style={{color: '#4A6fa5', fontWeight: '900', fontSize: '1.2rem'}}>AZUL</strong>, sugerimos que escolham qualquer outra cor!"
                     </p>
                 </div>
              </div>
@@ -175,7 +175,7 @@ export default function Invitation() {
           }}>
             <CircularButton icon={<FaHeart />} label="Confirmar" onClick={() => handleButtonClick('rsvp')} isActive={showModal} />
             <CircularButton icon={<FaMapMarkerAlt />} label="Local" onClick={() => handleButtonClick('map')} />
-            <CircularButton icon={<FaFemale />} label="Vestimenta" onClick={() => handleButtonClick('vestimenta')} isActive={activeContent === 'vestimenta'} />
+            <CircularButton icon={<FaFemale />} label="Traje" onClick={() => handleButtonClick('traje')} isActive={activeContent === 'traje'} />
             <CircularButton icon={<FaGift />} label="Presentes" onClick={() => handleButtonClick('presentes')} isActive={activeContent === 'presentes'} />
           </div>
         </div>
