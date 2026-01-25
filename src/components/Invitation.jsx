@@ -89,7 +89,7 @@ export default function Invitation() {
                     fontFamily: "'Great Vibes', cursive",
                     textAlign: 'center'
                 }}>
-                    Passeio Completo / Social
+                    Esporte Fino / Social
                 </p>
                 
                 <p style={{ 
